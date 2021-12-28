@@ -48,12 +48,21 @@ y_corona$location <- as.factor(y_corona$location)
 esquisse::esquisser(data=y_corona)
 
 
+
+
+
+
+
 #TÜM KITALARIN toplam vaka sayılarına ilişkin BAR GRAFİĞİ: 
 library(ggplot2)
 ggplot(y_corona) +
  aes(x = continent, weight = total_cases) +
  geom_bar(fill = "#112446") +
  theme_minimal()
+
+
+
+
 
 
 
@@ -101,7 +110,9 @@ ggplot(Asia) +
 
 
 
-###Europe###
+
+
+###EUROPE###
 #Europe'un toplam vaka / toplam ölüm ÇİZGİ GRAFİĞİ:
 library(dplyr)
 library(ggplot2)
@@ -138,4 +149,97 @@ ggplot(Europe) +
 
 
 
-###North America###
+
+
+###NORTH AMERICA###
+#NAmerica toplam vaka / toplam ölüm ÇİZGİ GRAFİĞİ:
+library(ggplot2)
+ggplot(North_America) +
+ aes(x = total_cases, y = total_deaths) +
+ geom_line(size = 0.5, colour = "#B22222") +
+ labs(x = "Toplam Vaka", y = "Toplam Ölüm", title = "Toplam Vaka / Toplam Ölüm grafiği", subtitle = "NAmerica") +
+ theme_minimal()
+
+#NAmerica Milyon kişi başına yeni ölüm sayısı YOĞUNLUK GRAFİĞİ
+library(ggplot2)
+ggplot(North_America) +
+ aes(x = new_deaths_per_million) +
+ geom_density(adjust = 1L, fill = "#EF562D") +
+ scale_x_continuous(trans = "log") +
+ theme_minimal()
+
+#NAmerica günlere göre yeni vaka sayısının BAR GRAFİĞİ:
+library(ggplot2)
+ggplot(North_America) +
+ aes(x = date, weight = new_cases) +
+ geom_bar(fill = "#440154") +
+ labs(x = "Günler", 
+ y = "Yoğunluk", title = "Günlere göre yoğunluk grafiği", subtitle = "NAmerica") +
+ theme_minimal()
+
+
+
+
+
+
+
+
+###SOUTH AMERICA###
+#SAmerica toplam vaka / toplam ölüm ÇİZGİ GRAFİĞİ:
+library(dplyr)
+library(ggplot2)
+South_America %>%
+ filter(total_cases >= 284703L & total_cases <= 1368195L) %>%
+ ggplot() +
+ aes(x = total_cases, y = total_deaths) +
+ geom_line(size = 0.5, colour = "#FF8C00") +
+ labs(x = "Toplam Vaka", y = "Toplam Ölüm", title = "Toplam vaka / Toplam ölüm ", subtitle = "SAmerica") +
+ theme_minimal()
+
+#SAmerica Milyon kişi başına yeni ölüm sayısı YOĞUNLUK GRAFİĞİ
+library(ggplot2)
+ggplot(South_America) +
+ aes(x = new_deaths_per_million) +
+ geom_density(adjust = 1L, fill = "#112446") +
+ scale_x_continuous(trans = "log") +
+ theme_minimal()
+
+#SAmerica günlere göre yeni vaka sayısının BAR GRAFİĞİ:
+library(ggplot2)
+ggplot(South_America) +
+ aes(x = date, weight = new_cases) +
+ geom_bar(position = "dodge", fill = "#112446") +
+ labs(x = "Günler", y = "Yeni Vaka", title = "Günlere göre yeni vaka sayısı") +
+ theme_minimal()
+
+
+
+
+
+
+
+
+
+###AFRICA
+#Africa toplam vaka / toplam ölüm ÇİZGİ GRAFİĞİ:
+library(dplyr)
+library(ggplot2)
+africa %>%
+ filter(total_cases >= 70217L & total_cases <= 144264L) %>%
+ ggplot() +
+ aes(x = total_cases, y = total_deaths) +
+ geom_line(size = 0.5, colour = "#B22222") +
+ labs(x = "Toplam Vaka", y = "Toplam Ölüm", subtitle = "Africa") +
+ theme_minimal()
+
+#Africa Milyon kişi başına yeni ölüm sayısı YOĞUNLUK GRAFİĞİ
+library(ggplot2)
+ggplot(africa) +
+ aes(x = new_deaths_per_million) +
+ geom_density(adjust = 1.4, fill = "#FF69B4") +
+ scale_x_continuous(trans = "log") +
+ theme_minimal()
+
+#Africa günlere göre yeni vaka sayısının BAR GRAFİĞİ:
+esquisse::esquisser(data=africa)
+

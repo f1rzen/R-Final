@@ -1,9 +1,9 @@
 {
     "id": "97C1EF2F",
-    "path": "~/GitHub/Statistical-Analyze-Final/Project/script.R",
+    "path": "~/GitHub/R-Final/Project/script.R",
     "project_path": "script.R",
     "type": "r_source",
-    "hash": "1529289446",
+    "hash": "2535700823",
     "contents": "",
     "dirty": false,
     "created": 1640517856082.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "91,0",
-        "scrollLine": "74"
+        "cursorPosition": "138,0",
+        "scrollLine": "106"
     },
     "folds": "",
-    "lastKnownWriteTime": 1640694704,
+    "lastKnownWriteTime": 1640698009,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1640694704691,
+    "last_content_update": 1640698009850,
     "read_only": false,
     "read_only_alternatives": []
 }

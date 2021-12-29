@@ -1,3 +1,4 @@
+#MANÝPÜLASYON PART
 library(readr)
 corona <- read_csv("coronavirus.csv")
 
@@ -39,6 +40,160 @@ library(readxl)
 y_corona <- read_excel("~/GitHub/R-Final/Datasets/y_corona.xlsx")
 
 #Gozlemi yapilacak veri Y_CORONA verisi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###DATA ANALYZE
+library(caret)
+library(dplyr)
+library(readr)
+library(DescTools)
+library(corrplot)
+library(stringr)
+
+corx<-read.csv("C:/Users/User/Desktop/y_xorona.csv")
+
+table(corx$continent)
+
+Asia<-corx[corx$continent=="Asia",]
+Africa<-corx[corx$continent=="Africa",]
+Europe<-corx[corx$continent=="Europe",]
+N_America<-corx[corx$continent=="North America",]
+S_America<-corx[corx$continent=="South America",]
+
+
+summary(Asia)
+summary(Africa)
+summary(Europe)
+summary(N_America)
+summary(S_America)
+
+class(Asia)
+class(Africa)
+class(Europe)
+class(N_America)
+class(S_America)
+
+dim(Asia)
+dim(Africa)
+dim(Europe)
+dim(N_America)
+dim(S_America)
+
+dim(corx)
+
+group_by(corx, continent) %>%
+  summarise(
+    count = n(),
+    mean = mean(corx$new_cases, na.rm = TRUE),
+    sd = sd(corx$new_cases, na.rm = TRUE)
+  )
+
+glimpse(Asia)
+glimpse(Africa)
+glimpse(Europe)
+glimpse(N_America)
+glimpse(S_America)
+
+
+
+#machine learning with linear regression model using caret with corx dataset
+
+corx%>% ggplot(aes(new_cases, new_deaths)) + 
+  geom_point(color="blue", alpha=0.3) +
+  ggtitle("Daily Cases and Daily Deaths") +
+  xlab("Daily Cases") +
+  ylab("Daily Deaths") + 
+  theme(plot.title = element_text(color = "darkred",
+                                  size = 18,
+                                  hjust = 0.5),
+        axis.text.y = element_text(size=12),
+        axis.text.x = element_text(size = 12, hjust = .5),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))+ scale_x_log10()+scale_y_log10()
+
+correlations = cor(corx[, 4:11])
+corrplot(correlations, method="color")
+
+inTrain<-createDataPartition(y = corx$new_deaths, p = 0.8, list = FALSE)
+training<-corx[inTrain,]
+testing<-corx[-inTrain, ]
+
+rbind("Training Set" = nrow(training)/nrow(corx),
+      "Test Data" = nrow(testing)/nrow(corx))%>%
+  round(2) #train=0.81, test=0.18
+
+linear_model <- train(training[,4:6], training[,7],
+                      method = "lm",
+                      preProcess = c("center","scale"))
+
+linear_model$results[c("RMSE","Rsquared")] %>%
+  round(2)
+summary(linear_model)
+
+prediction<-predict(linear_model, testing[,4:6])
+
+SSE=sum((testing[,7] - pred)^2)
+SST=sum((testing[,7] - mean(training[,7]))^2)
+
+R_square=1-SSE/SST
+round(R_square, 2)
+
+SSE = sum((testing[,7] - pred)^2)
+RMSE = sqrt(SSE/length(pred))
+
+round(RMSE, 2)
+
+my_data = as.data.frame(cbind(predicted = pred,
+                              observed = testing$new_deaths))
+
+ggplot(my_data,aes(predicted, observed)) +
+  geom_point(color = "darkred", alpha = 0.5) + 
+  geom_smooth(method=lm)+ ggtitle('Linear Regression ') +
+  ggtitle("Linear Regression: Prediction vs Test Data") +
+  xlab("Predicted Daily Deaths ") +
+  ylab("Observed Daily Deaths") +
+  theme(plot.title = element_text(color="darkgreen",size=18),
+        axis.text.y = element_text(size=12),
+        
+        axis.text.x = element_text(size=12,),
+        axis.title.x = element_text(size=12),
+        axis.title.y = element_text(size=12)) 
+
+
+matrix<-table(as.factor(nrow(testing[,4:6])),as.factor(nrow(as.data.frame(prediction))))
+confusionMatrix(matrix) #hatalý oluþuyor tekrar bakmak gerek
+
+calibration(as.factor(nrow(testing[,4:6])) ~ prediction)  #baþarýlý sonuç verdi ama classification için geçerli
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ESQUISSE PART

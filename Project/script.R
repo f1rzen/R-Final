@@ -398,3 +398,10 @@ ggplot(africa) +
 #Africa günlere göre yeni vaka sayısının BAR GRAFİĞİ:
 esquisse::esquisser(data=africa)
 
+library(ggplot2)
+
+ggplot(africa) +
+ aes(x = date, weight = new_cases) +
+ geom_bar(fill = "#112446") +
+ theme_minimal()
+
